@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Pet AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="pet-app">
+        <h1>Smart Pet AI</h1>
+        <h2>Seu Pet</h2>
+        <section class="pet-visual">
+            👽
+        </section>
+        <section class="status-pet">
+            <div class="status-linha">
+                Fome:
+                <progress id="fome-barra" max="100" value="100"></progress>
+                <span id="fome-valor">100</span>
+            </div>
+            <div class="status-linha">
+                Energia:
+                <progress id="energia-barra" max="100" value="100"></progress>
+                <span id="energia-valor">100</span>
+            </div>
+            <div class="status-linha">
+                Humor:
+                <progress id="humor-barra" max="100" value="100"></progress>
+                <span id="humor-valor">100</span>
+            </div>
+        </section>
+        <section class="botoes-acoes">  
+            <button type="button" id="btn-alimentar">
+                Alimentar
+            </button>
+            <button type="button" id="btn-dormir">
+                Dormir
+            </button>
+            <button type="button" id="btn-brincar">
+                Brincar
+            </button>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

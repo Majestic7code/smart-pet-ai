@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --cor-principal: #458cf7 ;
+    --fonte-padrao: Arial, sans-serif;
+}
+
+body {
+    font-family: var(--fonte-padrao);
+    background: linear-gradient(to right,#458cf7, #2b5da8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+.pet-app {
+    max-width: 500px;
+    padding: 40px;
+    background-color: rgba(42, 128, 240, 0.829);
+    border-radius: 30px;
+    border: 3px solid white;
+    box-shadow: 1px 1px 45px rgba(255, 255, 255, 0.699);
+}
+
+.pet-visual {
+    display: flex;
+    height: 200px;
+    width: 200px;
+    border: 5px solid rgb(247, 11, 11);
+    justify-content: center;
+    align-items: center;
+    font-size:xx-large;
+}
+
+.status-pet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.status-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
