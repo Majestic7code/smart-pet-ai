@@ -8,6 +8,7 @@ const btnBrincar = document.querySelector('#btn-brincar')
 const fomeBarra = document.querySelector('#fome-barra')
 const energiaBarra = document.querySelector('#energia-barra')
 const humorBarra = document.querySelector('#humor-barra')
+const petVisual = document.querySelector('.pet-visual')
 //Objeto - PET
 const pet = { 
     fome: 100,
@@ -23,6 +24,7 @@ function atualizarStatus() {
     if (fomeBarra) fomeBarra.value = pet.fome
     if (energiaBarra) energiaBarra.value = pet.energia
     if (humorBarra) humorBarra.value = pet.humor
+    atualizarVisualPet()
 }
 atualizarStatus()
 
@@ -76,3 +78,23 @@ const loop = setInterval(() => {
     decairStatus() 
     verificarMorte() 
 }, 2000)
+
+function atualizarVisualPet() {
+    if (!petVisual) return
+    if (pet.fome === 0 ||pet.energia === 0 || pet.humor === 0) {
+        petVisual.textContent = "💀"
+    }
+    else if (pet.fome < 15){
+        petVisual.textContent = "😵‍💫"
+    }
+    else if (pet.energia < 40) {
+        petVisual.textContent = "🥱"
+    }
+    else if (pet.humor > 70) {
+        petVisual.textContent = "😁"
+    }
+    else {
+        petVisual.textContent = "🙂"
+    }
+
+}
