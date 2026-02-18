@@ -1,3 +1,4 @@
+//Área de variáveis
 const fomeValor = document.querySelector('#fome-valor')
 const energiaValor = document.querySelector('#energia-valor')
 const humorValor = document.querySelector('#humor-valor')
@@ -19,9 +20,9 @@ function atualizarStatus() {
     energiaValor.textContent = pet.energia
     humorValor.textContent = pet.humor
 
-    fomeBarra.value = pet.fome
-    energiaBarra.value = pet.energia
-    humorBarra.value = pet.humor
+    if (fomeBarra) fomeBarra.value = pet.fome
+    if (energiaBarra) energiaBarra.value = pet.energia
+    if (humorBarra) humorBarra.value = pet.humor
 }
 atualizarStatus()
 
@@ -58,10 +59,20 @@ function decairStatus() {
     }
 
     if (pet.humor < 22) {
-        console.log("🫩 PET ENTENDIADO!")
+        console.log("🫩 PET ENTEDIADO!")
     }
 
     atualizarStatus()
 }
 
-setInterval(decairStatus, 2000)
+function verificarMorte() {
+    if (pet.fome === 0 || pet.energia === 0 || pet.humor === 0){
+        console.log("💀 SEU PET MORREU! ")
+        clearInterval(loop)
+    }
+}
+
+const loop = setInterval(() => { 
+    decairStatus() 
+    verificarMorte() 
+}, 2000)
