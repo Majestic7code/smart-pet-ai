@@ -2,6 +2,8 @@
 const fomeValor = document.querySelector('#fome-valor')
 const energiaValor = document.querySelector('#energia-valor')
 const humorValor = document.querySelector('#humor-valor')
+const XPvalor = document.querySelector('#xp-valor')
+const levelValor = document.querySelector('#level-valor')
 const btnAlimentar = document.querySelector('#btn-alimentar')
 const btnDormir = document.querySelector('#btn-dormir')
 const btnBrincar = document.querySelector('#btn-brincar')
@@ -14,11 +16,15 @@ const petSalvotxt = localStorage.getItem('smartPet')
 let pet = null
 if (petSalvotxt){
     pet = JSON.parse(petSalvotxt)
+    pet.xp = pet.xp || 0
+    pet.level = pet.level || 1
 }else {
     pet = {
     fome: 100,
     energia: 100,
     humor: 100,
+    xp: 0,
+    level: 1,
     }
 }
 //Funções de ações
@@ -26,12 +32,15 @@ function atualizarStatus() {
     fomeValor.textContent = pet.fome
     energiaValor.textContent = pet.energia
     humorValor.textContent = pet.humor
+    XPvalor.textContent = pet.xp
+    levelValor.textContent = pet.level
 
     if (fomeBarra) fomeBarra.value = pet.fome
     if (energiaBarra) energiaBarra.value = pet.energia
     if (humorBarra) humorBarra.value = pet.humor
     atualizarVisualPet()
     salvarPet()
+
 }
 atualizarStatus()
 
@@ -84,7 +93,7 @@ function verificarMorte() {
 const loop = setInterval(() => { 
     decairStatus() 
     verificarMorte() 
-}, 2000)
+}, 5000)
 
 function atualizarVisualPet() {
     if (!petVisual) return
@@ -108,4 +117,22 @@ function atualizarVisualPet() {
 function salvarPet(){
     const petSalvo = JSON.stringify(pet)
     localStorage.setItem('smartPet', petSalvo)
+}
+
+function verificarLevelUp() {
+    const xpNecessario = pet.level * 50  
+
+    while (pet.xp >= xpNecessario){
+        pet.level++
+        pet.xp = pet.xp - xpNecessario
+        alert("Seu pet evoluiu para o nivel" + pet.level + "!")
+    }
+}
+
+function ganharXP(valor) {
+    pet.xp += valor
+    verificarLevelUp()
+    salvarPet()
+    atualizarStatus()
+
 }
