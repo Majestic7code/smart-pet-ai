@@ -10,10 +10,16 @@ const energiaBarra = document.querySelector('#energia-barra')
 const humorBarra = document.querySelector('#humor-barra')
 const petVisual = document.querySelector('.pet-visual')
 //Objeto - PET
-const pet = { 
+const petSalvotxt = localStorage.getItem('smartPet')
+let pet = null
+if (petSalvotxt){
+    pet = JSON.parse(petSalvotxt)
+}else {
+    pet = {
     fome: 100,
     energia: 100,
     humor: 100,
+    }
 }
 //Funções de ações
 function atualizarStatus() {
@@ -25,6 +31,7 @@ function atualizarStatus() {
     if (energiaBarra) energiaBarra.value = pet.energia
     if (humorBarra) humorBarra.value = pet.humor
     atualizarVisualPet()
+    salvarPet()
 }
 atualizarStatus()
 
@@ -96,5 +103,9 @@ function atualizarVisualPet() {
     else {
         petVisual.textContent = "🙂"
     }
+}
 
+function salvarPet(){
+    const petSalvo = JSON.stringify(pet)
+    localStorage.setItem('smartPet', petSalvo)
 }
