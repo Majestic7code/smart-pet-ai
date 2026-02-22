@@ -102,7 +102,7 @@ function verificarMorte() {
 const loop = setInterval(() => { 
     decairStatus() 
     verificarMorte() 
-}, 3000)
+}, 9000)
 
 function atualizarVisualPet() {
     if (!petVisual) return
@@ -205,8 +205,8 @@ function pausarCrono() {
 
 function pomodoroConcluido() {
     ganharXP(10)
-    pet.humor = Math.min(100, pet.humor + 50)
-    pet.energia = Math.min(100, pet.energia + 50)
+    pet.humor = Math.min(100, pet.humor + 5)
+    pet.energia = Math.min(100, pet.energia + 5)
     pet.minutosProdutivos += 25
     alert("Pomodoro concluído! +10 XP")
 }
