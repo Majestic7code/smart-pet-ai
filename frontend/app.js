@@ -11,6 +11,11 @@ const fomeBarra = document.querySelector('#fome-barra')
 const energiaBarra = document.querySelector('#energia-barra')
 const humorBarra = document.querySelector('#humor-barra')
 const petVisual = document.querySelector('.pet-visual')
+//Variaveis do pomodoro
+const pomodoroTempo = document.querySelector('#pomodoro-tempo')
+const btnIniciar = document.querySelector('#btn-iniciar')
+const btnReiniciar = document.querySelector('#btn-reiniciar')
+const pomodoroLevel = document.querySelector('#pomodoro-level')
 //Objeto - PET
 const petSalvotxt = localStorage.getItem('smartPet')
 let pet = null
@@ -18,6 +23,8 @@ if (petSalvotxt){
     pet = JSON.parse(petSalvotxt)
     pet.xp = pet.xp || 0
     pet.level = pet.level || 1
+    pet.minutosProdutivos = pet.minutosProdutivos || 0
+
 }else {
     pet = {
     fome: 100,
@@ -25,6 +32,7 @@ if (petSalvotxt){
     humor: 100,
     xp: 0,
     level: 1,
+    minutosProdutivos: 0,
     }
 }
 //Funções de ações
@@ -34,6 +42,7 @@ function atualizarStatus() {
     humorValor.textContent = pet.humor
     XPvalor.textContent = pet.xp
     levelValor.textContent = pet.level
+    pomodoroLevel.textContent = pet.minutosProdutivos
 
     if (fomeBarra) fomeBarra.value = pet.fome
     if (energiaBarra) energiaBarra.value = pet.energia
@@ -93,7 +102,7 @@ function verificarMorte() {
 const loop = setInterval(() => { 
     decairStatus() 
     verificarMorte() 
-}, 5000)
+}, 3000)
 
 function atualizarVisualPet() {
     if (!petVisual) return
@@ -120,11 +129,9 @@ function salvarPet(){
 }
 
 function verificarLevelUp() {
-    const xpNecessario = pet.level * 50  
-
-    while (pet.xp >= xpNecessario){
+    while (pet.xp >= pet.level * 50){
+        pet.xp -= pet.level * 50
         pet.level++
-        pet.xp = pet.xp - xpNecessario
         alert("Seu pet evoluiu para o nivel" + pet.level + "!")
     }
 }
@@ -135,4 +142,75 @@ function ganharXP(valor) {
     salvarPet()
     atualizarStatus()
 
+}
+
+//POMODORO SETTINGS 
+btnIniciar.addEventListener('click',iniciarPausarPomo)
+btnReiniciar.addEventListener('click', reiniciarPomo)
+
+let tempoCont = 0
+let tempo = null
+let contandoPomo = false
+
+cronometro()
+
+function iniciarPausarPomo() {
+    contandoPomo ? pausarCrono() : iniciarCrono()
+}
+
+function reiniciarPomo() {
+    pausarCrono()
+    cronometro()
+    atualizarPomodoro()
+}
+
+function cronometro() { 
+    tempoCont = 25 * 60
+    tempo = null
+}
+
+function atualizarPomodoro() {
+    const minutos = Math.floor(tempoCont / 60)
+        .toString()
+        .padStart(2, "0")
+    const segundos = (tempoCont % 60)
+        .toString()
+        .padStart(2, "0")
+    pomodoroTempo.textContent = `${minutos}:${segundos}`
+}
+
+function atualizarCronometro() {
+    if (tempoCont > 0) {
+        tempoCont--
+        atualizarPomodoro()
+    } else if (tempoCont === 0) {
+        pausarCrono()
+        pomodoroConcluido()
+        reiniciarPomo()
+    }
+}
+
+function iniciarCrono() {
+    contandoPomo = true
+    btnIniciar.textContent = 'Pausar'
+    tempo = setInterval(atualizarCronometro, 10)
+}
+
+function pausarCrono() {
+    contandoPomo = false
+    btnIniciar.textContent = 'Iniciar'
+    clearInterval(tempo)
+}
+
+
+function pomodoroConcluido() {
+    ganharXP(10)
+    pet.humor = Math.min(100, pet.humor + 50)
+    pet.energia = Math.min(100, pet.energia + 50)
+    pet.minutosProdutivos += 25
+    alert("Pomodoro concluído! +10 XP")
+}
+
+function tarefaConcluida() {
+    ganharXP(5)
 }
