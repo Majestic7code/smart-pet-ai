@@ -3,47 +3,117 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 :root {
-    --cor-principal: #458cf7 ;
-    --fonte-padrao: Arial, sans-serif;
+    --cor-principal: #458cf7;
+    --cor-secundaria: #2b5da8;
+    --cor-card: #ffffff;
+    --cor-texto: #333;
+    --fonte-padrao: 'Segoe UI', sans-serif;
 }
 
 body {
     font-family: var(--fonte-padrao);
-    background: linear-gradient(to right,#458cf7, #2b5da8);
+    background: linear-gradient(to right, var(--cor-principal), var(--cor-secundaria));
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding: 40px 20px;
     min-height: 100vh;
 }
 
-
-.pet-app {
-    max-width: 500px;
-    padding: 40px;
-    background-color: rgba(42, 128, 240, 0.829);
-    border-radius: 30px;
-    border: 3px solid white;
-    box-shadow: 1px 1px 45px rgba(255, 255, 255, 0.699);
+/* CONTAINER */
+.container {
+    width: 100%;
+    max-width: 1100px;
 }
 
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+/* GRID DE CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+/* CARD */
+.card {
+    background-color: var(--cor-card);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+    color: var(--cor-texto);
+}
+
+/* PET VISUAL */
 .pet-visual {
     display: flex;
-    height: 200px;
-    width: 200px;
-    border: 5px solid rgb(247, 11, 11);
     justify-content: center;
     align-items: center;
-    font-size:xx-large;
+    font-size: 60px;
+    margin-bottom: 20px;
 }
 
+/* STATUS */
 .status-pet {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
+
 .status-linha {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
+}
+
+.status-linha p {
+    width: 80px;
+    font-weight: bold;
+}
+
+progress {
+    flex: 1;
+    height: 8px;
+}
+
+/* BOTÕES */
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--cor-principal);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--cor-secundaria);
+    transform: translateY(-2px);
+}
+
+.botoes-acoes,
+.botoes-pomodoro {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* POMODORO */
+.timer {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--cor-texto);
 }

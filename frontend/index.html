@@ -7,66 +7,81 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="pet-app">
-        <h1>Smart Pet AI</h1>
-        <h2>Seu Pet</h2>
-        <section class="pet-visual">
-            👽
-        </section>
-        <section class="status-pet">
-            <div class="status-linha">
-               <p>Fome:</p> 
-                <progress id="fome-barra" max="100" value="100"></progress>
-                <span id="fome-valor">100</span>
+    <div class="container">
+
+        <h1>🎓🐾 SmartPet Productivity</h1>
+
+        <div class="cards">
+
+            <!-- CARD PET-->
+            <div class="card">
+                <h2>🐾 Pet</h2>
+
+                <section class="pet-visual">
+                    👽
+                </section>
+
+                <section class="status-pet">
+                    <div class="status-linha">
+                        <p>Fome:</p> 
+                        <progress id="fome-barra" max="100" value="100"></progress>
+                        <span id="fome-valor">100</span>
+                    </div>
+
+                    <div class="status-linha">
+                        <p>Energia:</p>
+                        <progress id="energia-barra" max="100" value="100"></progress>
+                        <span id="energia-valor">100</span>
+                    </div>
+
+                    <div class="status-linha">
+                        <p>Humor:</p>
+                        <progress id="humor-barra" max="100" value="100"></progress>
+                        <span id="humor-valor">100</span>
+                    </div>
+                    
+                    <div class="status-linha">
+                        <p>XP:</p>
+                        <span id="xp-valor">0</span>
+                    </div>
+                    <div class="status-linha">
+                        <p>Level:</p>
+                        <span id="level-valor">1</span>
+                    </div>
+                </section>
+
+                <section class="botoes-acoes">  
+                    <button type="button" id="btn-alimentar"> Alimentar</button>
+                    <button type="button" id="btn-dormir">Dormir</button>
+                    <button type="button" id="btn-brincar">Brincar</button>
+                </section>
+            </div>  
+
+            <!--CARD POMODORO-->
+            <div class="card">
+                <h2>⏱️ Pomodoro</h2>
+
+                <section class="pomodoro-acoes">
+                    <div class="timer">
+                        <span id="pomodoro-tempo">25:00</span>
+                    </div>
+                   
+                    <div class="status-linha">
+                        <p>Total Minutos:</p>
+                        <span id="pomodoro-level">0</span>
+                    </div>
+
+                    <div class="botoes-pomodoro">
+                        <button type="button" id="btn-iniciar">Iniciar</button>
+                        <button type="button" id="btn-reiniciar">Reiniciar</button>
+                    </div>
+                </section>  
             </div>
-            <div class="status-linha">
-                <p>Energia:</p>
-                <progress id="energia-barra" max="100" value="100"></progress>
-                <span id="energia-valor">100</span>
-            </div>
-            <div class="status-linha">
-                <p>Humor:</p>
-                <progress id="humor-barra" max="100" value="100"></progress>
-                <span id="humor-valor">100</span>
-            </div>
-            <div class="status-linha">
-                <p>XP:</p>
-                <span id="xp-valor">0</span>
-            </div>
-            <div class="status-linha">
-                <p>Level:</p>
-                <span id="level-valor">1</span>
-            </div>
-        </section>
-        <section class="botoes-acoes">  
-            <button type="button" id="btn-alimentar">
-                Alimentar
-            </button>
-            <button type="button" id="btn-dormir">
-                Dormir
-            </button>
-            <button type="button" id="btn-brincar">
-                Brincar
-            </button>
-        </section>
-        <section class="pomodoro-acoes">
-            <div>
-                <p>POMODORO:</p>
-            </div>
-            <div class="status-linha">
-                <span id="pomodoro-tempo">25:00</span>
-                <p>Total-min:</p>
-                <span id="pomodoro-level">0</span>
-                
-            </div>
-            <button type="button" id="btn-iniciar">
-                <p>Iniciar</p>
-            </button>
-            <button type="button" id="btn-reiniciar">
-                <p>Reiniciar</p>
-            </button>
-        </section>
-    </main>
+
+        </div>
+
+    </div>
+    
     <script src="app.js"></script>
 </body>
 </html>
