@@ -27,6 +27,7 @@ if (petSalvotxt){
 
 }else {
     pet = {
+    vivo: true,
     fome: 100,
     energia: 100,
     humor: 100,
@@ -55,16 +56,19 @@ atualizarStatus()
 
 function alimentar() {
     pet.fome = Math.min(100, pet.fome + 10)
+    if (!pet.vivo) return
     atualizarStatus()
 }
 
 function dormir() {
     pet.energia = Math.min(100, pet.energia + 10)
+    if (!pet.vivo) return
     atualizarStatus()
 }
 
 function brincar() {
-    pet.humor = Math.min(100, pet.humor + 10)
+    pet.humor = Math.min(100, pet.humor + (pet.minutosProdutivos /100) )
+    if (!pet.vivo) return
     atualizarStatus()
 }
 
@@ -95,7 +99,8 @@ function decairStatus() {
 function verificarMorte() {
     if (pet.fome === 0 || pet.energia === 0 || pet.humor === 0){
         console.log("💀 SEU PET MORREU! ")
-        clearInterval(loop)
+        alert("💀 SEU PET MORREU!!")
+        pet.vivo = false
     }
 }
 
@@ -139,7 +144,6 @@ function verificarLevelUp() {
 function ganharXP(valor) {
     pet.xp += valor
     verificarLevelUp()
-    salvarPet()
     atualizarStatus()
 
 }
@@ -205,8 +209,8 @@ function pausarCrono() {
 
 function pomodoroConcluido() {
     ganharXP(10)
-    pet.humor = Math.min(100, pet.humor + 5)
-    pet.energia = Math.min(100, pet.energia + 5)
+    pet.humor = Math.min(100, pet.humor + 50)
+    pet.energia = Math.min(100, pet.energia + 50)
     pet.minutosProdutivos += 25
     alert("Pomodoro concluído! +10 XP")
 }
