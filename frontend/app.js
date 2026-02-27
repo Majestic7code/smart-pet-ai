@@ -52,9 +52,25 @@ async function carregarPet() {
         console.error("Erro ao conectar com o Backend", error)
     }
 }
-
 carregarPet()
 
+async function salvarPetNoBackend() {
+    try {
+        const response = await fetch ("http://127.0.0.1:8000/pet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pet)
+        })
+
+        const data = await response.json()
+        console.log("Resposta do servidor:", data)
+
+    } catch (error) {
+        console.error("Erro ao salvar no Backend:", error)
+    }
+}
 //Funções de ações
 function atualizarStatus() {
     fomeValor.textContent = pet.fome
@@ -69,6 +85,7 @@ function atualizarStatus() {
     if (humorBarra) humorBarra.value = pet.humor
     atualizarVisualPet()
     salvarPet()
+    salvarPetNoBackend(pet)
 
 }
 atualizarStatus()
@@ -238,6 +255,8 @@ function pomodoroConcluido() {
     pet.energia = Math.min(100, pet.energia + 50)
     pet.minutosProdutivos += 25
     alert("Pomodoro concluído! +10 XP")
+    salvarPetNoBackend(pet)
+    salvarPet()
 }
 
 function tarefaConcluida() {
