@@ -36,6 +36,25 @@ if (petSalvotxt){
     minutosProdutivos: 0,
     }
 }
+
+async function carregarPet() {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/pet")
+        const data = await response.json()
+    
+        console.log("Pet recebido com sucesso", data)
+        
+        if (data && !data.message) {
+             // aqui depois irei atualizar a interface
+        }
+
+    } catch (error) {
+        console.error("Erro ao conectar com o Backend", error)
+    }
+}
+
+carregarPet()
+
 //Funções de ações
 function atualizarStatus() {
     fomeValor.textContent = pet.fome
@@ -65,9 +84,14 @@ function dormir() {
     if (!pet.vivo) return
     atualizarStatus()
 }
-
+let humorProdutivo = 0 // humor interativo 
 function brincar() {
-    pet.humor = Math.min(100, pet.humor + (pet.minutosProdutivos /100) )
+    if (pet.minutosProdutivos < 100){  //Verificação para o humor ficar interativo
+        humorProdutivo = pet.minutosProdutivos / 4
+    } else if (pet.minutosProdutivos >= 100) {
+        humorProdutivo = pet.minutosProdutivos/6
+    }
+    pet.humor = Math.min(100, pet.humor + 3 + Math.round(humorProdutivo))
     if (!pet.vivo) return
     atualizarStatus()
 }
@@ -107,7 +131,7 @@ function verificarMorte() {
 const loop = setInterval(() => { 
     decairStatus() 
     verificarMorte() 
-}, 9000)
+}, 20000)
 
 function atualizarVisualPet() {
     if (!petVisual) return
@@ -190,6 +214,7 @@ function atualizarCronometro() {
     } else if (tempoCont === 0) {
         pausarCrono()
         pomodoroConcluido()
+        atualizarPomodoro()
         reiniciarPomo()
     }
 }

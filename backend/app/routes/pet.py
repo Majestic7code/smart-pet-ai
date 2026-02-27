@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .schemas import Pet
+from ..schemas.pet_schema import Pet
 
 router = APIRouter()
 
@@ -9,8 +9,10 @@ pet_estado = None
 def salvar_pet(pet: Pet):
     global pet_estado
     pet_estado = pet
-    return {"mensage:" "Pet salvo com sucesso!"}
+    return {"mensage": "Pet salvo com sucesso!"}
 
 @router.get("/pet")
 def obter_pet():
+    if pet_estado is None:
+        return {"message": "Nenhum pet salvo ainda."}
     return pet_estado
