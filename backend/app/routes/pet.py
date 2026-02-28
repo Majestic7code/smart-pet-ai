@@ -13,6 +13,7 @@ def salvar_pet(pet: Pet):
 
 @router.get("/pet")
 def obter_pet():
+    global pet_estado
     if pet_estado is None:
         return {"message": "Nenhum pet salvo ainda."}
     return pet_estado
