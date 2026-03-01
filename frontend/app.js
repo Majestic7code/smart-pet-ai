@@ -28,6 +28,18 @@ let pet = {
     minutosProdutivos: 0,
 }
 
+function definirCor(barra, valor) {
+    if (valor>60) {
+        barra.style.setProperty("--cor-barra", "linear-gradient(90deg,#2ecc71, #27ae60)")
+    }
+    else if (valor > 30) {
+        barra.style.setProperty("--cor-barra", "linear-gradient(90deg, #f1c40f, #f39c12")
+    }
+    else {
+        barra.style.setProperty("--cor-barra","linear-gradient(90deg, #e74c3c, #c0392b)")
+    }
+}
+
 async function carregarPet() {
     try {
         const response = await fetch("http://127.0.0.1:8000/pet")
@@ -86,6 +98,19 @@ function atualizarStatus() {
     if (fomeBarra) fomeBarra.value = pet.fome
     if (energiaBarra) energiaBarra.value = pet.energia
     if (humorBarra) humorBarra.value = pet.humor
+    
+    if (fomeBarra) {
+        fomeBarra.value = Number(pet.fome) || 0
+        definirCor(fomeBarra, pet.fome)
+    }
+    if (energiaBarra) {
+        energiaBarra.value = Number(pet.energia) || 0
+        definirCor(energiaBarra, pet.energia)
+    }
+    if (humorBarra) {
+        humorBarra.value = Number(pet.humor) || 0
+        definirCor(humorBarra, pet.humor)
+    }
     atualizarVisualPet()
 
 }

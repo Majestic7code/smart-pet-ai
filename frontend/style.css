@@ -67,22 +67,58 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 15px;
 }
 
 .status-linha {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
+    margin-bottom: 12px;
 }
 
 .status-linha p {
     width: 80px;
     font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.status-linha span {
+    font-size: 13px;
+    margin-top: 3px;
+    color: #555;
 }
 
 progress {
-    flex: 1;
-    height: 8px;
+    width: 100%;
+    height: 14px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    --cor-barra: linear-gradient(90deg, #458cf7, #1e5edb);
+}
+
+/* Fundo da barra */
+progress::-webkit-progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Parte preenchida */
+progress::-webkit-progress-value {
+    background: linear-gradient(90deg, #458cf7, #1e5edb);
+    border-radius: 10px;
+    background: var(--cor-barra);
+}
+
+/* Firefox */
+progress::-moz-progress-bar {
+    background: linear-gradient(90deg, #458cf7, #1e5edb);
+    border-radius: 10px;
+    background: var(--cor-barra);
 }
 
 /* BOTÕES */
