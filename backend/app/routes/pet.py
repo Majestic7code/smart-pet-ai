@@ -1,6 +1,10 @@
 from fastapi import APIRouter
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.main import pet_manager
 from ..schemas.pet_schema import Pet
-from app.models.pet_model import petModel
+from app.models.pet_model import PetModel
 from app.services.pet_services import ( 
     alimentar_pet, 
     brincar_pet, 
@@ -9,64 +13,81 @@ from app.services.pet_services import (
 )
 
 router = APIRouter()
-
-pet_estado = None
+ 
+#pet_estado = None
 
 @router.get('/pet')
 def obter_pet():
-    global pet_estado
-    if pet_estado is None:
+    #global pet_estado
+    pet = pet_manager.obter()
+    if pet is None:
         return {"message": "Nenhum pet salvo ainda."}
     
-    pet_estado = aplicar_degradacao(pet_estado)
+    pet = aplicar_degradacao(pet)
+    pet_manager.atualizar(pet)
 
-    return pet_estado
+    return pet
 
 @router.post('/pet')
-def salvar_pet(pet: Pet):
-    global pet_estado
+def salvar_pet(pet: Pet, db: Session = Depends(get_db)):
+    #global pet_estado
 
-    pet_estado = petModel(
-        fome=pet.fome
-        energia=pet.energia
-        humor=pet.hum  
-    )
+    novo_pet = PetModel(
+        fome=pet.fome,
+        energia=pet.energia,
+        humor=pet.humor,
+        xp=pet.xp,
+        level=pet.level,
+        minutosProdutivos=pet.minutosProdutivos
+        )
+    
+    db.add(novo_pet)
+    db.commit()
+    db.refresh(novo_pet)
+    pet_manager.salvar(novo_pet)
 
-
-    return {"mensage": "Pet salvo com sucesso!"}
+    return novo_pet
 
 @router.post('/alimentar')
 def alimentar():
-    global pet_estado
-    
-    if pet_estado is None:
+    #global pet_estado
+    pet = pet_manager.obter()
+
+    if pet is None:
         return {"mensage": "Nenhum pet criado."}
     
-    pet_estado = aplicar_degradacao(pet_estado)
-    pet_estado = alimentar_pet(pet_estado)
+    pet = aplicar_degradacao(pet)
+    pet = alimentar_pet(pet)
+    
+    pet_manager.atualizar(pet)
 
-    return pet_estado
+    return pet
     
 @router.post('/brincar')
 def brincar():
-    global pet_estado
-    
-    if pet_estado is None:
+    #global pet_estado
+    pet = pet_manager.obter()
+    if pet is None:
         return {"mensage": "Nenhum pet criado. "}
     
-    pet_estado = aplicar_degradacao(pet_estado)
-    pet_estado = brincar_pet(pet_estado)
+    pet = aplicar_degradacao(pet)
+    pet = brincar_pet(pet)
 
-    return pet_estado
+    pet_manager.atualizar(pet)
+
+    return pet
 
 @router.post('/trabalhar')
 def trabalhar():
-    global pet_estado
+    #global pet_estado
+    pet = pet_manager.obter()
     
-    if pet_estado is None:
+    if pet is None:
         return {"mensage": "Nenhum pet criado."}
     
-    pet_estado = aplicar_degradacao(pet_estado)
-    pet_estado = trabalhar_pet(pet_estado)
+    pet = aplicar_degradacao(pet)
+    pet = trabalhar_pet(pet)
 
-    return pet_estado
+    pet_manager.atualizar(pet)
+
+    return pet

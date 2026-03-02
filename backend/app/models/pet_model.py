@@ -1,12 +1,18 @@
+from sqlalchemy import column, Integer, DateTime
 from datetime import datetime
+from app.database import Base
 
-class petModel:
-    def __init__(self, fome, energia, humor, xp, level, minutosProdutivos):
-        self.fome = fome
-        self.energia = energia
-        self.humor = humor
-        self.xp = xp
-        self.level = level
-        self.minutosProdutivos = minutosProdutivos
-        self.ultimo_update = datetime.utcnow()
+
+class PetModel(Base):
+    __tablename__ = "pets"
+
+    id = column(Integer, primary_key=True, index=True)
+    fome = column(Integer)
+    energia = column(Integer)
+    humor = column(Integer)
+    xp = column(Integer)
+    level = column(Integer)
+    minutosProdutivos = column(Integer)
+    ultimo_update = column(DateTime, default=datetime.utcnow)
+
 

@@ -1,4 +1,3 @@
-from ..routes.pet import pet
 from datetime import datetime 
 
 def aplicar_degradacao(pet):

@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes.pet import router
+from app.core.pet_manager import petManager
+from app.database import engine, Base
+from app.models import pet_model
 
+Base.metadata.create_all(bind=engine)
+
+pet_manager = petManager()
 app = FastAPI(title="Smart Pet API")
 app.include_router(router)
 
