@@ -47,8 +47,7 @@ async function carregarPet() {
     
         console.log("Pet recebido com sucesso", data)
         
-        if (data && !data.message) {
-             pet = {
+        pet = {
                 vivo: data.vivo ?? true,
                 fome: data.fome ?? 100,
                 energia: data.energia ?? 100,
@@ -57,34 +56,14 @@ async function carregarPet() {
                 level: data.level ?? 1,
                 minutosProdutivos: data.minutosProdutivos ?? 0,
             }
-        } else {
-            console.log("Nenhum PET salvo no Backend, cirando um novo...")
-            await salvarPetNoBackend() // cria pet no backend caso não tenha
-        }
-
+        
         atualizarStatus()
 
     } catch (error) {
         console.error("Erro ao conectar com o Backend", error)
     }
 }
-async function salvarPetNoBackend() {
-    try {
-        const response = await fetch ("http://127.0.0.1:8000/pet", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(pet)
-        })
 
-        const data = await response.json()
-        console.log("Resposta do servidor:", data)
-
-    } catch (error) {
-        console.error("Erro ao salvar no Backend:", error)
-    }
-}
 //Funções de ações
 function atualizarStatus() {
     console.log("PET ATUAL:", pet)
@@ -115,41 +94,61 @@ function atualizarStatus() {
 
 }
 
-function alimentar() {
-    console.log("Pet vivo?", pet.vivo)
-    if (!pet.vivo) return
-    pet.fome = Math.min(100, pet.fome + 10)
-    atualizarStatus()
-    //salvarPet()
-    salvarPetNoBackend()
+async function alimentar() {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/alimentar", {
+            method: "POST"
+        })
+
+        const data = await response.json()
+        pet = data
+        atualizarStatus()
+
+    } catch (error) {
+        console.error("Erro ao alimentar:", error)
+    }
 }
 
-function dormir() {
-    pet.energia = Math.min(100, pet.energia + 10)
-    if (!pet.vivo) return
+async function dormir() {
+    const response = await fetch("http://127.0.0.1:8000/dormir", {
+        method: "POST"
+    })
+
+    const data = await response.json()
+    pet = data
     atualizarStatus()
-    //salvarPet()
-    salvarPetNoBackend()
 }
-let humorProdutivo = 0 // humor interativo 
-function brincar() {
-    if (pet.minutosProdutivos < 100){  //Verificação para o humor ficar interativo
-        humorProdutivo = pet.minutosProdutivos / 4
-    } else if (pet.minutosProdutivos >= 100) {
-        humorProdutivo = pet.minutosProdutivos/6
-    }
-    pet.humor = Math.min(100, pet.humor + 3 + Math.round(humorProdutivo))
-    if (!pet.vivo) return
+
+async function brincar() {
+    const response = await fetch("http://127.0.0.1:8000/brincar", {
+        method: "POST"
+    })
+
+    const data = await response.json()
+    pet = data
     atualizarStatus()
-    //salvarPet()
-    salvarPetNoBackend()
+}
+
+async function trabalhar() {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/trabalhar", {
+            method: "POST"
+        })
+
+        const data = await response.json()
+        pet = data
+        atualizarStatus()
+
+    } catch (error) {
+        console.error("Erro ao trabalhar:", error)
+    }
 }
 
 btnAlimentar.addEventListener('click', alimentar)
 btnDormir.addEventListener('click',dormir)
 btnBrincar.addEventListener('click', brincar)
 
-async function decairStatus() {
+/*async function decairStatus() {
     pet.fome = Math.max(0, pet.fome - 5)
     pet.energia = Math.max(0, pet.energia - 8)
     pet.humor = Math.max(0, pet.humor - 7)
@@ -164,25 +163,19 @@ async function decairStatus() {
     }
 
     atualizarStatus()
-
-    try {
-        await salvarPetNoBackend()
-    } catch (error) {
-        console.error("Erro ao sincronizar decaimento")
-    }
     
-}
+}*/
 
-function verificarMorte() {
+/*function verificarMorte() {
     if (pet.fome === 0 || pet.energia === 0 || pet.humor === 0){
         console.log("💀 SEU PET MORREU! ")
         alert("💀 SEU PET MORREU!!")
         reiniciarPet()
         //pet.vivo = false
     }
-}
+}*/
 
-function reiniciarPet() {
+/*function reiniciarPet() {
     pet = {
         vivo: true,
         fome: 100,
@@ -194,13 +187,12 @@ function reiniciarPet() {
     }
     atualizarStatus()
     //salvarPet()
-    salvarPetNoBackend()
-}
+}*/
 
-const loop = setInterval( async () => { 
+/*const loop = setInterval( async () => { 
     await decairStatus()
     verificarMorte() 
-}, 10000)
+}, 10000)*/
 
 function atualizarVisualPet() {
     if (!petVisual) return
@@ -307,7 +299,6 @@ function pomodoroConcluido() {
     alert("Pomodoro concluído! +10 XP")
     atualizarStatus()
     //salvarPet()
-    salvarPetNoBackend()
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
