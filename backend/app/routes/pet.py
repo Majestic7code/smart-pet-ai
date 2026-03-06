@@ -7,6 +7,7 @@ from app.services.pet_services import (
     dormir_pet,
     brincar_pet, 
     trabalhar_pet,
+    pomodoro_pet
 )
 
 router = APIRouter()
@@ -30,3 +31,7 @@ def brincar(db: Session = Depends(get_db)):
 @router.post('/trabalhar')
 def trabalhar(db: Session = Depends(get_db)):
     return trabalhar_pet(db)
+
+@router.post('/pomodoro')
+def concluir_pomodoro(db: Session = Depends(get_db)):
+    return pomodoro_pet(db)

@@ -65,7 +65,7 @@ async function carregarPet() {
 }
 
 //Funções de ações
-function atualizarStatus() {
+async function atualizarStatus() {
     console.log("PET ATUAL:", pet)
     fomeValor.textContent = pet.fome
     energiaValor.textContent = pet.energia
@@ -189,11 +189,6 @@ btnBrincar.addEventListener('click', brincar)
     //salvarPet()
 }*/
 
-/*const loop = setInterval( async () => { 
-    await decairStatus()
-    verificarMorte() 
-}, 10000)*/
-
 function atualizarVisualPet() {
     if (!petVisual) return
     if (pet.fome === 0 ||pet.energia === 0 || pet.humor === 0) {
@@ -281,7 +276,7 @@ function atualizarCronometro() {
 function iniciarCrono() {
     contandoPomo = true
     btnIniciar.textContent = 'Pausar'
-    tempo = setInterval(atualizarCronometro, 1000)
+    tempo = setInterval(atualizarCronometro, 10)
 }
 
 function pausarCrono() {
@@ -291,14 +286,18 @@ function pausarCrono() {
 }
 
 
-function pomodoroConcluido() {
-    ganharXP(10)
-    pet.humor = Math.min(100, pet.humor + 50)
-    pet.energia = Math.min(100, pet.energia + 50)
-    pet.minutosProdutivos += 25
-    alert("Pomodoro concluído! +10 XP")
+async function pomodoroConcluido() {
+    const response = await fetch("http://127.0.0.1:8000/pomodoro", {
+        method: "POST"
+    })
+
+    const data = await response.json()
+
+    pet = data
     atualizarStatus()
-    //salvarPet()
+
+    alert("Pomodoro concluído! +10 XP")
+    //salvarPet()*/
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -306,4 +305,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     await carregarPet()
     atualizarStatus()
     atualizarPomodoro()
+
+    setInterval( async () => { 
+        await carregarPet()
+        atualizarStatus()
+        //verificarMorte() 
+    }, 10000)
 })

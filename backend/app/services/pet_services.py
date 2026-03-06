@@ -20,7 +20,7 @@ def get_pet(db: Session):
 
 def aplicar_degradacao(pet):
     agora = datetime.utcnow()
-    minutos_passados = (agora - pet.ultimo_update).total_seconds() / 20
+    minutos_passados = (agora - pet.ultimo_update).total_seconds() / 30
 
     if minutos_passados < 1:
         return pet 
@@ -31,17 +31,17 @@ def aplicar_degradacao(pet):
     perda = int(minutos_passados)
 
     pet.fome = max(0, pet.fome - perda * 5)
-    pet.energia = max(0, pet.energia - perda * 7)
-    pet.humor = max(0, pet.humor - perda * 6)
+    pet.energia = max(0, pet.energia - perda * 8)
+    pet.humor = max(0, pet.humor - perda * 7)
 
     pet.ultimo_update = agora
+
 
     return pet
 
 
 def alimentar_pet(db: Session):
     pet = get_pet(db)
-    aplicar_degradacao(pet)
 
     pet.fome = min(100, pet.fome + 10)
 
@@ -92,12 +92,29 @@ def trabalhar_pet(db: Session, minutos: int = 25):
     aplicar_degradacao(pet)
 
     pet.xp += minutos
-    pet.minutosProdutivo += minutos
+    pet.minutosProdutivos += minutos
     pet.energia = max(0, pet.energia - 10)
     pet.humor = max(0, pet.humor - 3)
 
     db.commit()
     db.refresh(pet)
     
-    return pet 
+    return pet
+
+def pomodoro_pet(db: Session):
+
+    pet = get_pet(db)
+
+    if not pet.vivo:
+        return pet 
+
+    pet.xp += 10
+    pet.humor = min(100, pet.humor + 50)
+    pet.energia = max(0, pet.energia - 50)
+    pet.minutosProdutivos += 25
+
+    db.commit()
+    db.refresh(pet)
+
+    return pet
 
